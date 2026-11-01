@@ -15,6 +15,7 @@ import {
 import api from '../utils/api'
 import { useLanguage } from '../utils/LanguageContext'
 import Breadcrumbs from '../components/Breadcrumbs'
+import VoiceDictationButton from '../components/VoiceDictationButton'
 
 const VERDICT_CONFIG = {
   VERIFIED: {
@@ -143,17 +144,25 @@ export default function FactChecker() {
       {/* Input Form (GOV.UK Textarea Pattern) */}
       <form onSubmit={handleSubmit} className="card space-y-4 border-slate-200 shadow-sm bg-white">
         <label className="block">
-          <div className="flex items-center justify-between mb-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
             <span className="form-label mb-0">{t('factCheck.label')}</span>
-            {claim.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setClaim('')}
-                className="text-xs text-slate-400 hover:text-red-600 font-medium transition-colors"
-              >
-                {t('factCheck.clearText')}
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              <VoiceDictationButton
+                onTranscript={(spoken) => {
+                  setClaim((prev) => (prev ? `${prev.trim()} ${spoken}` : spoken))
+                }}
+                targetLabel={t('factCheck.label')}
+              />
+              {claim.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setClaim('')}
+                  className="text-xs text-slate-400 hover:text-red-600 font-medium transition-colors"
+                >
+                  {t('factCheck.clearText')}
+                </button>
+              )}
+            </div>
           </div>
           <textarea
             className="input-field h-28 resize-y text-slate-800 leading-relaxed font-normal"

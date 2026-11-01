@@ -25,6 +25,7 @@ The frontend interface incorporates verified design principles adapted from lead
 - **[myScheme](https://www.myscheme.gov.in/)**: Scheme discovery hierarchy, ministry badges, direct benefit transfer (DBT) callouts, and verified official government portal action buttons.
 - **[Canada Benefits Finder](https://www.canada.ca/en/services/benefits/finder.html)**: Guided multi-step questionnaires, quick-fill persona presets, and a dynamic "Profile at a Glance" summary card.
 - **Bilingual Interface**: Seamless instant toggling between **English** and **Hindi (हिन्दी)** across all pages.
+- **Multilingual Voice Input (Speech-to-Text)**: Real-time browser voice dictation in **English (`en-IN`)** and **Hindi (`hi-IN`)** across key input fields (grievance description, incident location, fact-checking claims, policy text), featuring continuous append, live feedback, and accessible typing fallbacks.
 
 ---
 

@@ -20,6 +20,7 @@ import {
 import api from '../utils/api'
 import { useLanguage } from '../utils/LanguageContext'
 import Breadcrumbs from '../components/Breadcrumbs'
+import VoiceDictationButton from '../components/VoiceDictationButton'
 
 export default function PolicyExplainer() {
   const { lang, t } = useLanguage()
@@ -167,9 +168,15 @@ export default function PolicyExplainer() {
       {/* Input Form (GOV.UK Textarea Pattern) */}
       <form onSubmit={handleSubmit} className="card space-y-5 border-slate-200 shadow-sm bg-white">
         <label className="block">
-          <div className="flex items-center justify-between mb-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
             <span className="form-label mb-0">{t('policy.label')}</span>
             <div className="flex items-center gap-3 text-xs text-slate-500">
+              <VoiceDictationButton
+                onTranscript={(spoken) => {
+                  setText((prev) => (prev ? `${prev.trim()} ${spoken}` : spoken))
+                }}
+                targetLabel={t('policy.label')}
+              />
               <span>{text.length} {t('policy.charCount')}</span>
               {text.length > 0 && (
                 <button

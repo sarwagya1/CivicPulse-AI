@@ -26,6 +26,7 @@ import {
 import api from '../utils/api'
 import { useLanguage } from '../utils/LanguageContext'
 import Breadcrumbs from '../components/Breadcrumbs'
+import VoiceDictationButton from '../components/VoiceDictationButton'
 
 const SEVERITY_BADGE = {
   CRITICAL: 'badge-critical',
@@ -343,10 +344,21 @@ export default function GrievancePortal() {
           </div>
 
           <div className="block">
-            <span className="form-label flex items-center gap-1.5">
-              <MapPin size={14} className="text-slate-500" />
-              {t('grievance.locationLabel')}
-            </span>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="form-label mb-0 flex items-center gap-1.5">
+                <MapPin size={14} className="text-slate-500" />
+                {t('grievance.locationLabel')}
+              </span>
+              <VoiceDictationButton
+                onTranscript={(spoken) => {
+                  setForm((prev) => ({
+                    ...prev,
+                    location: prev.location ? `${prev.location.trim()} ${spoken}` : spoken,
+                  }))
+                }}
+                targetLabel={t('grievance.locationLabel')}
+              />
+            </div>
             <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-start">
               <input
                 className="input-field flex-1"
@@ -385,9 +397,20 @@ export default function GrievancePortal() {
           </div>
 
           <label className="block">
-            <span className="form-label">
-              {t('grievance.issueLabel')}
-            </span>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="form-label mb-0">
+                {t('grievance.issueLabel')}
+              </span>
+              <VoiceDictationButton
+                onTranscript={(spoken) => {
+                  setForm((prev) => ({
+                    ...prev,
+                    description: prev.description ? `${prev.description.trim()} ${spoken}` : spoken,
+                  }))
+                }}
+                targetLabel={t('grievance.issueLabel')}
+              />
+            </div>
             <textarea
               className="input-field h-36 resize-y"
               placeholder={t('grievance.issuePlaceholder')}
