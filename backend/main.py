@@ -37,12 +37,19 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# ----- CORS (allow React dev server) -----
-origins = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+# ----- CORS (supports multiple frontend origins & wildcards) -----
+cors_env = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000,*")
+if "*" in [o.strip() for o in cors_env.split(",")]:
+    origins = ["*"]
+    allow_creds = False
+else:
+    origins = [o.strip() for o in cors_env.split(",") if o.strip()]
+    allow_creds = True
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -67,3 +74,9 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
