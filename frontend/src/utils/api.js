@@ -5,8 +5,18 @@ import axios from 'axios'
  * In dev, Vite proxies /api → http://localhost:8000
  * In production, set VITE_API_URL env var.
  */
+const resolveBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL
+  if (!envUrl) return '/api'
+  const trimmed = envUrl.replace(/\/+$/, '')
+  if (trimmed.startsWith('http') && !trimmed.endsWith('/api')) {
+    return `${trimmed}/api`
+  }
+  return trimmed
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: resolveBaseUrl(),
   timeout: 60000,   // 60s — HuggingFace models can be slow on first load
   headers: {
     'Content-Type': 'application/json',
